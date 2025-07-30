@@ -1,49 +1,63 @@
 body {
-  font-family: poppins;
-  background-color: #f2f2f2;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
   padding: 20px;
   color: #333;
 }
 
 h1 {
   text-align: center;
-  color: #3a3a3a;
+  color: #3b5c45;
+  margin-bottom: 30px;
 }
 
 #malla {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 10px;
-  margin-top: 30px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  overflow-x: auto;
+  padding: 10px;
+}
+
+.semestre {
+  min-width: 200px;
+  background-color: #b0c0aa;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.semestre h2 {
+  font-size: 1em;
+  text-align: center;
+  color: #2f4c2f;
+  margin-bottom: 10px;
 }
 
 .curso {
-  padding: 10px;
-  background-color: #b0c0aa;
+  background-color: #f0f0f0;
+  padding: 8px;
+  margin-bottom: 8px;
   border: 2px solid #95a98e;
-  border-radius: 10px;
+  border-radius: 6px;
   cursor: pointer;
-  user-select: none;
-  transition: 0.3s;
   font-size: 0.9em;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .curso:hover {
-  background-color: #95a98e;
-  color: white;
+  background-color: #d8e3d4;
 }
 
 .curso.aprobado {
-  background-color: #7ca77b;
+  background-color: #95a98e;
   color: white;
-  border-color: #5e865d;
   text-decoration: line-through;
 }
 
 .curso.bloqueado {
   background-color: #ddd;
-  color: #888;
-  border-color: #bbb;
+  color: #aaa;
+  border-color: #ccc;
   cursor: not-allowed;
 }
-
