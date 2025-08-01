@@ -1,99 +1,122 @@
-const cursos = [
-  { id: 'qg1', nombre: 'Química General I', semestre: 'I Semestre', abre: ['qg2'] },
-  { id: 'labqg', nombre: 'Lab. Química General', semestre: 'I Semestre', abre: ['qg2'] },
-  { id: 'intro', nombre: 'Intro a Ciencias Farm.', semestre: 'I Semestre', abre: [] },
-  { id: 'meds', nombre: 'Mundo de los Medicamentos', semestre: 'I Semestre', abre: ['bot'] },
-  { id: 'precalc', nombre: 'Precálculo', semestre: 'I Semestre', abre: ['calc1'] },
-  { id: 'filo', nombre: 'Filosofía: ¿Para Qué?', semestre: 'I Semestre', abre: [] },
-  { id: 'qg2', nombre: 'Química General II', semestre: 'II Semestre', requisitos: ['qg1', 'labqg'], abre: ['qorg1', 'bot', 'qa1', 'qfis'] },
-  { id: 'fisica', nombre: 'Física para Ciencias', semestre: 'II Semestre', abre: ['qfis'] },
-  { id: 'calc1', nombre: 'Cálculo I', semestre: 'II Semestre', requisitos: ['precalc'], abre: ['estad', 'qfis'] },
-  { id: 'elect1', nombre: 'Electivo', semestre: 'II Semestre', abre: [] },
-  { id: 'elect2', nombre: 'Electivo', semestre: 'II Semestre', abre: [] },
-  { id: 'qorg1', nombre: 'Química Orgánica I', semestre: 'III Semestre', requisitos: ['qg2'], abre: ['qorg2'] },
-  { id: 'bot', nombre: 'Botánica y Farmacognosia', semestre: 'III Semestre', requisitos: ['meds', 'qg2'], abre: [] },
-  { id: 'estad', nombre: 'Estadística QF', semestre: 'III Semestre', requisitos: ['calc1'], abre: ['qa1'] },
-  { id: 'biocel', nombre: 'Biología de la Célula', semestre: 'III Semestre', abre: ['fisio'] },
-  { id: 'elect3', nombre: 'Electivo', semestre: 'III Semestre', abre: [] },
-  { id: 'qorg2', nombre: 'Química Orgánica II', semestre: 'IV Semestre', requisitos: ['qorg1'], abre: ['laborg', 'bioq'] },
-  { id: 'qa1', nombre: 'Química Analítica I', semestre: 'IV Semestre', requisitos: ['qg2', 'estad'], abre: ['ainst'] },
-  { id: 'fisio', nombre: 'Fisiología', semestre: 'IV Semestre', requisitos: ['biocel'], abre: ['micro', 'fispat'] },
-  { id: 'teo', nombre: 'Electivo Teológico', semestre: 'IV Semestre', abre: [] },
-  { id: 'elect4', nombre: 'Electivo', semestre: 'IV Semestre', abre: [] },
-  { id: 'laborg', nombre: 'Lab. Química Orgánica', semestre: 'V Semestre', requisitos: ['qorg2'], abre: ['fq1'] },
-  { id: 'bioq', nombre: 'Bioquímica', semestre: 'V Semestre', requisitos: ['qorg2'], abre: ['micro', 'farm1', 'bioqc'] },
-  { id: 'qfis', nombre: 'Química-Física', semestre: 'V Semestre', requisitos: ['qg2', 'calc1', 'fisica'], abre: ['fq1', 'farmc', 'bioqc'] },
-  { id: 'ainst', nombre: 'Análisis Instrumental', semestre: 'V Semestre', requisitos: ['qa1'], abre: ['tf1'] },
-  { id: 'fispat', nombre: 'Fisiopatología', semestre: 'V Semestre', requisitos: ['fisio'], abre: ['farm1', 'bioqc'] },
-  { id: 'micro', nombre: 'Microbiología e Inmunología', semestre: 'VI Semestre', requisitos: ['fisio', 'bioq'], abre: [] },
-  { id: 'fq1', nombre: 'Fármaco-Química I', semestre: 'VI Semestre', requisitos: ['laborg', 'qfis'], abre: ['fq2', 'fcaf', 'ley'] },
-  { id: 'farmc', nombre: 'Farmacocinética y Biofarmacia', semestre: 'VI Semestre', requisitos: ['qfis'], abre: ['tf1'] },
-  { id: 'farm1', nombre: 'Farmacología I', semestre: 'VI Semestre', requisitos: ['bioq', 'fispat'], abre: ['farm2', 'salud'] },
-  { id: 'elect5', nombre: 'Electivo', semestre: 'VI Semestre', abre: [] },
-  { id: 'fq2', nombre: 'Fármaco-Química II', semestre: 'VII Semestre', requisitos: ['fq1'], abre: ['fq3', 'internado', 'privada', 'pp2'] },
-  { id: 'tf1', nombre: 'Tecnología Farmacéutica I', semestre: 'VII Semestre', requisitos: ['farmc', 'ainst'], abre: ['pp1', 'tf2'] },
-  { id: 'farm2', nombre: 'Farmacología II', semestre: 'VII Semestre', requisitos: ['farm1'], abre: ['fcaf', 'farm3'] },
-  { id: 'bioqc', nombre: 'Bioquímica Clínica', semestre: 'VII Semestre', requisitos: ['bioq', 'qfis', 'fispat'], abre: [] },
-  { id: 'elect6', nombre: 'Electivo', semestre: 'VII Semestre', abre: [] },
-  { id: 'tox', nombre: 'Toxicología', semestre: 'VIII Semestre', abre: [] },
-  { id: 'tesis', nombre: 'Tesis de grado', semestre: 'VIII Semestre', abre: [] },
-  { id: 'fq3', nombre: 'Fármaco-Química III', semestre: 'IX Semestre', requisitos: ['fq2'], abre: [] },
-  { id: 'fcaf', nombre: 'Farmacia Clínica y Atención Farmacéutica', semestre: 'IX Semestre', requisitos: ['fq1', 'farm2'], abre: [] },
-  { id: 'farm3', nombre: 'Farmacología III', semestre: 'IX Semestre', requisitos: ['farm2'], abre: ['internado'] },
-  { id: 'tf2', nombre: 'Tecnología Farmacéutica II', semestre: 'IX Semestre', requisitos: ['tf1'], abre: ['pp2'] },
-  { id: 'opt1', nombre: 'Optativo de Profundización', semestre: 'IX Semestre', abre: [] },
-  { id: 'pp1', nombre: 'Práctica Profesional I', semestre: 'IX Semestre', requisitos: ['tf1'], abre: [] },
-  { id: 'salud', nombre: 'Salud Pública QF', semestre: 'X Semestre', requisitos: ['farm1'], abre: [] },
-  { id: 'internado', nombre: 'Internado Clínico', semestre: 'X Semestre', requisitos: ['fq2', 'farm3'], abre: [] },
-  { id: 'privada', nombre: 'Farmacia Privada', semestre: 'X Semestre', requisitos: ['fq2'], abre: [] },
-  { id: 'ley', nombre: 'Legislación y Deontología Farmacéutica', semestre: 'X Semestre', requisitos: ['fq1'], abre: [] },
-  { id: 'opt2', nombre: 'Optativo de Profundización', semestre: 'X Semestre', abre: [] },
-  { id: 'opt3', nombre: 'Optativo de Profundización', semestre: 'X Semestre', abre: [] },
-  { id: 'pp2', nombre: 'Práctica Profesional II', semestre: 'X Semestre', requisitos: ['fq2', 'tf2'], abre: [] },
+const ramos = [
+  // PRIMER AÑO
+  { id: "quimica1", nombre: "Química General I", semestre: 1, requisitos: [] },
+  { id: "lab_quimica1", nombre: "Laboratorio de Química General", semestre: 1, requisitos: [] },
+  { id: "intro_ciencias", nombre: "Introducción a las Ciencias Farmacéuticas", semestre: 1, requisitos: [] },
+  { id: "mundo_meds", nombre: "Mundo de los Medicamentos", semestre: 1, requisitos: [] },
+  { id: "precalculo", nombre: "Precálculo", semestre: 1, requisitos: [] },
+  { id: "filosofia", nombre: "Filosofía: ¿Para Qué?", semestre: 1, requisitos: [] },
+
+  { id: "quimica2", nombre: "Química General II", semestre: 2, requisitos: ["quimica1", "lab_quimica1"] },
+  { id: "fisica", nombre: "Física para Ciencias", semestre: 2, requisitos: [] },
+  { id: "calculo1", nombre: "Cálculo I", semestre: 2, requisitos: ["precalculo"] },
+  { id: "electivo1", nombre: "Electivo", semestre: 2, requisitos: [] },
+  { id: "electivo2", nombre: "Electivo", semestre: 2, requisitos: [] },
+
+  // SEGUNDO AÑO
+  { id: "org1", nombre: "Química Orgánica I", semestre: 3, requisitos: ["quimica2"] },
+  { id: "botanica", nombre: "Botánica y Farmacognosia", semestre: 3, requisitos: ["quimica2", "mundo_meds"] },
+  { id: "estadistica", nombre: "Estadística para QF", semestre: 3, requisitos: ["calculo1"] },
+  { id: "biocel", nombre: "Biología de la Célula", semestre: 3, requisitos: [] },
+  { id: "electivo3", nombre: "Electivo", semestre: 3, requisitos: [] },
+
+  { id: "org2", nombre: "Química Orgánica II", semestre: 4, requisitos: ["org1"] },
+  { id: "analitica1", nombre: "Química Analítica I", semestre: 4, requisitos: ["quimica2", "estadistica"] },
+  { id: "fisiologia", nombre: "Fisiología", semestre: 4, requisitos: ["biocel"] },
+  { id: "teo", nombre: "Electivo Teológico", semestre: 4, requisitos: [] },
+  { id: "electivo4", nombre: "Electivo", semestre: 4, requisitos: [] },
+
+  // TERCER AÑO
+  { id: "lab_org", nombre: "Lab. Química Orgánica", semestre: 5, requisitos: ["org2"] },
+  { id: "bioquimica", nombre: "Bioquímica", semestre: 5, requisitos: ["org2"] },
+  { id: "quimica_fisica", nombre: "Química-Física", semestre: 5, requisitos: ["quimica2", "fisica", "calculo1"] },
+  { id: "instrumental", nombre: "Análisis Instrumental", semestre: 5, requisitos: ["analitica1"] },
+  { id: "fisiopato", nombre: "Fisiopatología", semestre: 5, requisitos: ["fisiologia"] },
+
+  { id: "microbio", nombre: "Microbiología e Inmunología", semestre: 6, requisitos: ["bioquimica"] },
+  { id: "farmaqui1", nombre: "Fármaco-Química I", semestre: 6, requisitos: ["lab_org", "quimica_fisica"] },
+  { id: "farmacocinetica", nombre: "Farmacocinética y Bio-farmacia", semestre: 6, requisitos: ["quimica_fisica"] },
+  { id: "farmaco1", nombre: "Farmacología I", semestre: 6, requisitos: ["bioquimica", "fisiopato"] },
+  { id: "electivo5", nombre: "Electivo", semestre: 6, requisitos: [] },
+
+  // CUARTO AÑO
+  { id: "farmaqui2", nombre: "Fármaco-Química II", semestre: 7, requisitos: ["farmaqui1", "farmaco1"] },
+  { id: "tecfarm1", nombre: "Tecnología Farmacéutica I", semestre: 7, requisitos: ["instrumental", "farmacocinetica"] },
+  { id: "farmaco2", nombre: "Farmacología II", semestre: 7, requisitos: ["farmaco1"] },
+  { id: "bioq_clinica", nombre: "Bioquímica Clínica", semestre: 7, requisitos: ["bioquimica", "quimica_fisica", "fisiopato"] },
+  { id: "electivo6", nombre: "Electivo", semestre: 7, requisitos: [] },
+
+  { id: "toxico", nombre: "Toxicología", semestre: 8, requisitos: [] },
+  { id: "tesis", nombre: "Tesis de grado", semestre: 8, requisitos: [] },
+
+  // QUINTO AÑO
+  { id: "farmaqui3", nombre: "Fármaco-Química III", semestre: 9, requisitos: ["farmaqui2"] },
+  { id: "clinica", nombre: "Farmacia Clínica y Atención Farmacéutica", semestre: 9, requisitos: ["farmaqui2", "farmaco2"] },
+  { id: "farmaco3", nombre: "Farmacología III", semestre: 9, requisitos: ["farmaco2"] },
+  { id: "tecfarm2", nombre: "Tecnología Farmacéutica II", semestre: 9, requisitos: ["tecfarm1"] },
+  { id: "optativo1", nombre: "Optativo de Profundización", semestre: 9, requisitos: [] },
+  { id: "practica1", nombre: "Práctica Profesional I", semestre: 9, requisitos: ["tecfarm1"] },
+
+  { id: "salud_pub", nombre: "Salud Pública QF", semestre: 10, requisitos: ["farmaco1"] },
+  { id: "internado", nombre: "Internado Clínico", semestre: 10, requisitos: ["farmaqui2", "farmaco3"] },
+  { id: "privada", nombre: "Farmacia Privada", semestre: 10, requisitos: ["farmaqui2"] },
+  { id: "legal", nombre: "Legislación y Deontología Farmacéutica", semestre: 10, requisitos: ["farmaqui1"] },
+  { id: "optativo2", nombre: "Optativo de Profundización", semestre: 10, requisitos: [] },
+  { id: "optativo3", nombre: "Optativo de Profundización", semestre: 10, requisitos: [] },
+  { id: "practica2", nombre: "Práctica Profesional II", semestre: 10, requisitos: ["tecfarm2", "farmaqui2"] }
 ];
 
-const estado = {};
+const mallaDiv = document.getElementById("malla");
+const estado = JSON.parse(localStorage.getItem("estadoRamos")) || {};
 
 function crearMalla() {
-  const contenedor = document.getElementById('malla');
-  const semestres = [...new Set(cursos.map(c => c.semestre))];
-  semestres.forEach(sem => {
-    const col = document.createElement('div');
-    col.className = 'semestre';
-    col.innerHTML = `<h2>${sem}</h2>`;
-    cursos
-      .filter(c => c.semestre === sem)
-      .forEach(curso => {
-        const btn = document.createElement('div');
-        btn.className = 'curso bloqueado';
-        btn.id = curso.id;
-        btn.innerText = curso.nombre;
-        btn.onclick = () => aprobarCurso(curso.id);
-        col.appendChild(btn);
-        estado[curso.id] = false;
-      });
-    contenedor.appendChild(col);
+  const semestres = {};
+  ramos.forEach(ramo => {
+    if (!semestres[ramo.semestre]) semestres[ramo.semestre] = [];
+    semestres[ramo.semestre].push(ramo);
   });
-  actualizarCursos();
+
+  Object.keys(semestres).sort((a, b) => a - b).forEach(num => {
+    const columna = document.createElement("div");
+    columna.className = "semestre";
+    columna.innerHTML = `<h2>Semestre ${num}</h2>`;
+    semestres[num].forEach(ramo => {
+      const div = document.createElement("div");
+      div.className = "ramo";
+      div.textContent = ramo.nombre;
+      div.id = ramo.id;
+      columna.appendChild(div);
+    });
+    mallaDiv.appendChild(columna);
+  });
+
+  actualizarEstado();
 }
 
-function aprobarCurso(id) {
-  const el = document.getElementById(id);
-  if (el.classList.contains('bloqueado')) return;
-  estado[id] = !estado[id];
-  el.classList.toggle('aprobado', estado[id]);
-  actualizarCursos();
-}
+function actualizarEstado() {
+  ramos.forEach(ramo => {
+    const div = document.getElementById(ramo.id);
+    const aprobado = estado[ramo.id];
+    const habilitado = ramo.requisitos.every(req => estado[req]);
 
-function actualizarCursos() {
-  cursos.forEach(curso => {
-    const el = document.getElementById(curso.id);
-    const requisitos = curso.requisitos || [];
-    const cumple = requisitos.every(r => estado[r]);
-    if (!estado[curso.id]) {
-      el.classList.toggle('bloqueado', !cumple);
+    div.classList.remove("aprobado", "bloqueado");
+
+    if (aprobado) {
+      div.classList.add("aprobado");
+    } else if (!habilitado && ramo.requisitos.length > 0) {
+      div.classList.add("bloqueado");
+    }
+
+    if (!div.classList.contains("aprobado") && habilitado) {
+      div.onclick = () => {
+        estado[ramo.id] = true;
+        localStorage.setItem("estadoRamos", JSON.stringify(estado));
+        actualizarEstado();
+      };
+    } else {
+      div.onclick = null;
     }
   });
 }
 
-window.onload = crearMalla;
+crearMalla();
